@@ -1,8 +1,23 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 import Timeline from "../components/Timeline";
+import { getLoggedInUser } from "../data/LocalDataService";
+import { useNavigate, Navigate } from "react-router-dom";
 
-export default function AdminTimeline({ auth }) {
+export default function AdminTimeline() {
+  const navigate = useNavigate();
+  const auth = {
+    user: {},
+  };
+
+  useEffect(() => {
+    const user = getLoggedInUser(navigate);
+    if (!user) {
+      navigate("/login");
+    }
+    auth.user = user;
+  }, []);
+
   return (
     <AuthenticatedLayout
       auth={auth}

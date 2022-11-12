@@ -6,28 +6,39 @@ import PrimaryButton from "../components/PrimaryButton";
 import TextInput from "../components/TextInput";
 import { Link } from "react-router-dom";
 import { resetElements } from "../utils/CommonFunctions";
+import { registerUser } from "../data/LocalDataService";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const [data, setData] = useState({
+  const formData = {
     name: "",
     email: "",
     password: "",
     password_confirmation: "",
-  });
+  };
+  const [errors, setErrors] = useState(formData);
+  const [data, setData] = useState(formData);
+  const navigate = useNavigate();
 
   const onHandleChange = (event) => {
-    setData(
-      event.target.name,
-      event.target.type === "checkbox"
-        ? event.target.checked
-        : event.target.value
-    );
+    setData((data) => ({
+      ...data,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const submit = (e) => {
     e.preventDefault();
+    setErrors(formData);
 
-    // post(route("register"));
+    registerUser(
+      data.name,
+      data.email,
+      data.password,
+      data.password_confirmation,
+      setErrors,
+      navigate
+    );
   };
 
   return (
@@ -48,7 +59,7 @@ export default function Register() {
             required
           />
 
-          {/* <InputError message={errors.name} className="mt-2" /> */}
+          <InputError message={errors.name} className="mt-2" />
         </div>
 
         <div className="mt-4">
@@ -65,7 +76,7 @@ export default function Register() {
             required
           />
 
-          {/* <InputError message={errors.email} className="mt-2" /> */}
+          <InputError message={errors.email} className="mt-2" />
         </div>
 
         <div className="mt-4">
@@ -82,7 +93,7 @@ export default function Register() {
             required
           />
 
-          {/* <InputError message={errors.password} className="mt-2" /> */}
+          <InputError message={errors.password} className="mt-2" />
         </div>
 
         <div className="mt-4">
@@ -101,7 +112,7 @@ export default function Register() {
             required
           />
 
-          {/* <InputError message={errors.password_confirmation} className="mt-2" /> */}
+          <InputError message={errors.password_confirmation} className="mt-2" />
         </div>
 
         <div className="flex items-center justify-end mt-4">

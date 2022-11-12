@@ -7,27 +7,29 @@ import PrimaryButton from "../components/PrimaryButton";
 import TextInput from "../components/TextInput";
 import { Link } from "react-router-dom";
 import { resetElements } from "../utils/CommonFunctions";
+import { loginUser } from "../data/LocalDataService";
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ props }) {
-  const [data, setData] = useState({
+  const formData = {
     email: "",
     password: "",
-    remember: "",
-  });
+  };
+  const [errors, setErrors] = useState(formData);
+  const [data, setData] = useState(formData);
+  const navigate = useNavigate();
 
   const onHandleChange = (event) => {
-    setData(
-      event.target.name,
-      event.target.type === "checkbox"
-        ? event.target.checked
-        : event.target.value
-    );
+    setData((data) => ({
+      ...data,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const submit = (e) => {
     e.preventDefault();
 
-    // post(route("login"));
+    loginUser(data.email, data.password, setErrors, navigate);
   };
 
   return (
@@ -47,7 +49,7 @@ export default function Login({ props }) {
             handleChange={onHandleChange}
           />
 
-          {/* <InputError message={errors.email} className="mt-2" /> */}
+          <InputError message={errors.email} className="mt-2" />
         </div>
 
         <div className="mt-4">
@@ -63,7 +65,7 @@ export default function Login({ props }) {
             handleChange={onHandleChange}
           />
 
-          {/* <InputError message={errors.password} className="mt-2" /> */}
+          <InputError message={errors.password} className="mt-2" />
         </div>
 
         <div className="flex items-center justify-end mt-4">

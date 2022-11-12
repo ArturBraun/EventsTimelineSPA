@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Event from "./Event";
 import EventActions from "./EventActions";
-import { getEvents } from "../data/LocalDataStorage";
+import { getEvents } from "../data/LocalDataService";
 
 export default function Timeline({ props, forEditing }) {
   const [events, setEvents] = useState([]);
