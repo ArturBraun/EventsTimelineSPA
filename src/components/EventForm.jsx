@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { toDateFromStr, getFormattedDate } from "../utils/common-functions";
+import { toDateFromStr, getFormattedDate } from "../utils/CommonFunctions";
 import TypePicker from "./TypePicker";
 
 export default function EventForm({

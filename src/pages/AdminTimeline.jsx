@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 import Timeline from "../components/Timeline";
 
-export default function AdminTimeline({ auth, events }) {
+export default function AdminTimeline({ auth }) {
   return (
     <AuthenticatedLayout
       auth={auth}
@@ -12,7 +12,7 @@ export default function AdminTimeline({ auth, events }) {
         </h2>
       }
     >
-      <Timeline events={events} forEditing={true} />
+      <Timeline forEditing={true} />
     </AuthenticatedLayout>
   );
 }

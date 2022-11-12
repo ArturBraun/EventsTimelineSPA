@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import GuestLayout from "@/Layouts/GuestLayout";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import React, { useState, useEffect } from "react";
+import GuestLayout from "../layouts/GuestLayout";
+import InputError from "../components/InputError";
+import InputLabel from "../components/InputLabel";
+import PrimaryButton from "../components/PrimaryButton";
+import TextInput from "../components/TextInput";
+import { Link } from "react-router-dom";
 
 export default function Register() {
-  const { data, setData, post, processing, errors, reset } = useForm({
+  const { data, setData, post, processing, errors, reset } = useState({
     name: "",
     email: "",
     password: "",
@@ -32,13 +32,11 @@ export default function Register() {
   const submit = (e) => {
     e.preventDefault();
 
-    post(route("register"));
+    // post(route("register"));
   };
 
   return (
     <GuestLayout>
-      <Head title="Register" />
-
       <form onSubmit={submit}>
         <div>
           <InputLabel forInput="name" value="Name" />
@@ -109,7 +107,7 @@ export default function Register() {
 
         <div className="flex items-center justify-end mt-4">
           <Link
-            href={route("login")}
+            to="/login"
             className="underline text-sm text-gray-600 hover:text-gray-900"
           >
             Already registered?

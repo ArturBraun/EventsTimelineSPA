@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import Checkbox from "@/Components/Checkbox";
-import GuestLayout from "@/Layouts/GuestLayout";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import React, { useState, useEffect } from "react";
+import Checkbox from "../components/Checkbox";
+import GuestLayout from "../layouts/GuestLayout";
+import InputError from "../components/InputError";
+import InputLabel from "../components/InputLabel";
+import PrimaryButton from "../components/PrimaryButton";
+import TextInput from "../components/TextInput";
+import { Link } from "react-router-dom";
 
 export default function Login({ status, canResetPassword }) {
-  const { data, setData, post, processing, errors, reset } = useForm({
+  const { data, setData, post, processing, errors, reset } = useState({
     email: "",
     password: "",
     remember: "",
@@ -32,12 +32,11 @@ export default function Login({ status, canResetPassword }) {
   const submit = (e) => {
     e.preventDefault();
 
-    post(route("login"));
+    // post(route("login"));
   };
 
   return (
     <GuestLayout>
-      <Head title="Log in" />
 
       {status && (
         <div className="mb-4 font-medium text-sm text-green-600">{status}</div>
@@ -89,7 +88,7 @@ export default function Login({ status, canResetPassword }) {
 
         <div className="flex items-center justify-end mt-4">
           <Link
-            href={route("register")}
+            to="/register"
             className="underline text-sm text-gray-600 hover:text-gray-900"
           >
             Account is needed?
