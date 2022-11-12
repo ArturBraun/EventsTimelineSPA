@@ -11,3 +11,7 @@ export function getFormattedDate(date) {
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+export function resetElements(...elementIds) {
+  elementIds.forEach((elementId) => document.getElementById(elementId).reset());
+}

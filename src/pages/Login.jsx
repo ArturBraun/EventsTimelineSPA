@@ -6,19 +6,14 @@ import InputLabel from "../components/InputLabel";
 import PrimaryButton from "../components/PrimaryButton";
 import TextInput from "../components/TextInput";
 import { Link } from "react-router-dom";
+import { resetElements } from "../utils/CommonFunctions";
 
-export default function Login({ status, canResetPassword }) {
-  const { data, setData, post, processing, errors, reset } = useState({
+export default function Login({ props }) {
+  const [data, setData] = useState({
     email: "",
     password: "",
     remember: "",
   });
-
-  useEffect(() => {
-    return () => {
-      reset("password");
-    };
-  }, []);
 
   const onHandleChange = (event) => {
     setData(
@@ -37,16 +32,12 @@ export default function Login({ status, canResetPassword }) {
 
   return (
     <GuestLayout>
-
-      {status && (
-        <div className="mb-4 font-medium text-sm text-green-600">{status}</div>
-      )}
-
-      <form onSubmit={submit}>
+      <form id="login-form" onSubmit={submit}>
         <div>
           <InputLabel forInput="email" value="Email" />
 
           <TextInput
+            id="email"
             type="text"
             name="email"
             value={data.email}
@@ -56,13 +47,14 @@ export default function Login({ status, canResetPassword }) {
             handleChange={onHandleChange}
           />
 
-          <InputError message={errors.email} className="mt-2" />
+          {/* <InputError message={errors.email} className="mt-2" /> */}
         </div>
 
         <div className="mt-4">
           <InputLabel forInput="password" value="Password" />
 
           <TextInput
+            id="password"
             type="password"
             name="password"
             value={data.password}
@@ -71,19 +63,7 @@ export default function Login({ status, canResetPassword }) {
             handleChange={onHandleChange}
           />
 
-          <InputError message={errors.password} className="mt-2" />
-        </div>
-
-        <div className="block mt-4">
-          <label className="flex items-center">
-            <Checkbox
-              name="remember"
-              value={data.remember}
-              handleChange={onHandleChange}
-            />
-
-            <span className="ml-2 text-sm text-gray-600">Remember me</span>
-          </label>
+          {/* <InputError message={errors.password} className="mt-2" /> */}
         </div>
 
         <div className="flex items-center justify-end mt-4">
@@ -94,9 +74,7 @@ export default function Login({ status, canResetPassword }) {
             Account is needed?
           </Link>
 
-          <PrimaryButton className="ml-4" processing={processing}>
-            Log in
-          </PrimaryButton>
+          <PrimaryButton className="ml-4">Log in</PrimaryButton>
         </div>
       </form>
     </GuestLayout>

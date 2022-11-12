@@ -5,20 +5,15 @@ import InputLabel from "../components/InputLabel";
 import PrimaryButton from "../components/PrimaryButton";
 import TextInput from "../components/TextInput";
 import { Link } from "react-router-dom";
+import { resetElements } from "../utils/CommonFunctions";
 
 export default function Register() {
-  const { data, setData, post, processing, errors, reset } = useState({
+  const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
     password_confirmation: "",
   });
-
-  useEffect(() => {
-    return () => {
-      reset("password", "password_confirmation");
-    };
-  }, []);
 
   const onHandleChange = (event) => {
     setData(
@@ -42,6 +37,7 @@ export default function Register() {
           <InputLabel forInput="name" value="Name" />
 
           <TextInput
+            id="name"
             type="text"
             name="name"
             value={data.name}
@@ -52,13 +48,14 @@ export default function Register() {
             required
           />
 
-          <InputError message={errors.name} className="mt-2" />
+          {/* <InputError message={errors.name} className="mt-2" /> */}
         </div>
 
         <div className="mt-4">
           <InputLabel forInput="email" value="Email" />
 
           <TextInput
+            id="email"
             type="email"
             name="email"
             value={data.email}
@@ -68,13 +65,14 @@ export default function Register() {
             required
           />
 
-          <InputError message={errors.email} className="mt-2" />
+          {/* <InputError message={errors.email} className="mt-2" /> */}
         </div>
 
         <div className="mt-4">
           <InputLabel forInput="password" value="Password" />
 
           <TextInput
+            id="password"
             type="password"
             name="password"
             value={data.password}
@@ -84,7 +82,7 @@ export default function Register() {
             required
           />
 
-          <InputError message={errors.password} className="mt-2" />
+          {/* <InputError message={errors.password} className="mt-2" /> */}
         </div>
 
         <div className="mt-4">
@@ -94,6 +92,7 @@ export default function Register() {
           />
 
           <TextInput
+            id="password_confirmation"
             type="password"
             name="password_confirmation"
             value={data.password_confirmation}
@@ -102,7 +101,7 @@ export default function Register() {
             required
           />
 
-          <InputError message={errors.password_confirmation} className="mt-2" />
+          {/* <InputError message={errors.password_confirmation} className="mt-2" /> */}
         </div>
 
         <div className="flex items-center justify-end mt-4">
@@ -113,9 +112,7 @@ export default function Register() {
             Already registered?
           </Link>
 
-          <PrimaryButton className="ml-4" processing={processing}>
-            Register
-          </PrimaryButton>
+          <PrimaryButton className="ml-4">Register</PrimaryButton>
         </div>
       </form>
     </GuestLayout>

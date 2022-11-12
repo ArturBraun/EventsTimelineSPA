@@ -1,9 +1,9 @@
 import { toDateFromStr, getFormattedDate } from "../utils/CommonFunctions";
 
-export function initSampleData(){
-    localStorage.clear();
+export function initSampleData() {
+  localStorage.clear();
 
-    const events = `[
+  const events = `[
         {
             "id": 1,
             "name": "w",
@@ -24,7 +24,7 @@ export function initSampleData(){
         }
     ]`;
 
-    const types = `[
+  const types = `[
         {
             "id": 1,
             "name": "marketing",
@@ -32,35 +32,35 @@ export function initSampleData(){
         }
     ]`;
 
-    localStorage.setItem("events", events);
-    localStorage.setItem("types", types);
+  localStorage.setItem("events", events);
+  localStorage.setItem("types", types);
 }
 
-export function getTypes(){
-    return JSON.parse(localStorage.getItem("types"));
+export function getTypes() {
+  return JSON.parse(localStorage.getItem("types"));
 }
 
-function sortEvents(events){
-    return events.sort(
-        (event1, event2) => toDateFromStr(event2.end_date) - toDateFromStr(event1.end_date)
-    );
+function getLastIndex(items) {
+  return Math.max(...items.map((item) => item.id), 0);
 }
 
-export function getEvents(){
-    const events = JSON.parse(localStorage.getItem("events"));
-    const types = getTypes();
-
-    const eventsWithType = events.map(event => {
-        if(!isNaN(event.type_id && event.type_id >= 0)){
-            event.type = types[event.type_id - 1];
-        }
-        return event;
-    });
-
-    return sortEvents(eventsWithType);
+function sortEvents(events) {
+  return events.sort(
+    (event1, event2) =>
+      toDateFromStr(event2.end_date) - toDateFromStr(event1.end_date)
+  );
 }
 
+export function getEvents() {
+  const events = JSON.parse(localStorage.getItem("events"));
+  const types = getTypes();
 
+  const eventsWithType = events.map((event) => {
+    if (!isNaN(event.type_id && event.type_id >= 0)) {
+      event.type = types[event.type_id - 1];
+    }
+    return event;
+  });
 
-
-
+  return sortEvents(eventsWithType);
+}

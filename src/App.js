@@ -5,7 +5,7 @@ import UserTimeline from "./pages/UserTimeline";
 import AdminTimeline from "./pages/AdminTimeline";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { initSampleData } from './data/LocalDataStorage'
+import { initSampleData } from "./data/LocalDataStorage";
 
 function App() {
   useEffect(() => initSampleData(), []);

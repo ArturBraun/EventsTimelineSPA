@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
 export default function TextInput({
+  id,
   type = "text",
   name,
   value,
@@ -21,6 +22,7 @@ export default function TextInput({
   return (
     <div className="flex flex-col items-start">
       <input
+        id={id}
         type={type}
         name={name}
         value={value}
