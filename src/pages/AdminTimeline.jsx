@@ -6,16 +6,21 @@ import { useNavigate, Navigate } from "react-router-dom";
 
 export default function AdminTimeline() {
   const navigate = useNavigate();
-  const auth = {
-    user: {},
+  const authInitData = {
+    user: {
+      id: "",
+      name: "",
+      email: "",
+    },
   };
+  const [auth, setAuth] = useState(authInitData);
 
   useEffect(() => {
-    const user = getLoggedInUser(navigate);
+    const user = getLoggedInUser();
     if (!user) {
       navigate("/login");
     }
-    auth.user = user;
+    setAuth({ user: user });
   }, []);
 
   return (

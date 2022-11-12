@@ -31,14 +31,17 @@ export default function Register() {
     e.preventDefault();
     setErrors(formData);
 
-    registerUser(
+    const userId = registerUser(
       data.name,
       data.email,
       data.password,
       data.password_confirmation,
-      setErrors,
-      navigate
+      setErrors
     );
+
+    if (userId) {
+      navigate("/events");
+    }
   };
 
   return (

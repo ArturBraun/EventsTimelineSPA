@@ -79,8 +79,7 @@ export function registerUser(
   email,
   password,
   passwordConfirmation,
-  setErrors,
-  navigate
+  setErrors
 ) {
   if (!name) {
     setErrors((errors) => ({
@@ -128,10 +127,10 @@ export function registerUser(
 
   users.push(newUser);
   localStorage.setItem("users", JSON.stringify(users));
-  navigate("/events");
+  return newUser.id;
 }
 
-export function loginUser(email, password, setErrors, navigate) {
+export function loginUser(email, password, setErrors) {
   const users = JSON.parse(localStorage.getItem("users"));
   const user = users.find(
     (user) =>
@@ -146,7 +145,15 @@ export function loginUser(email, password, setErrors, navigate) {
     return;
   }
 
-  navigate("/events");
+  localStorage.setItem(
+    "loggedInUser",
+    JSON.stringify({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    })
+  );
+  return user.id;
 }
 
 export function getLoggedInUser() {

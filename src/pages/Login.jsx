@@ -28,8 +28,12 @@ export default function Login({ props }) {
 
   const submit = (e) => {
     e.preventDefault();
+    setErrors(formData);
 
-    loginUser(data.email, data.password, setErrors, navigate);
+    const userId = loginUser(data.email, data.password, setErrors);
+    if (userId) {
+      navigate("/events");
+    }
   };
 
   return (
