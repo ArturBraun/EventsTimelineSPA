@@ -4,6 +4,7 @@ import Dropdown from "../components/Dropdown";
 import NavLink from "../components/NavLink";
 import ResponsiveNavLink from "../components/ResponsiveNavLink";
 import { Link, useLocation } from "react-router-dom";
+import { logoutUser } from "../data/LocalDataService";
 
 export default function AuthenticatedLayout({ auth, header, children }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -28,7 +29,7 @@ export default function AuthenticatedLayout({ auth, header, children }) {
                 <NavLink to="/dashboard" active={isCurrentRoute("/dashboard")}>
                   Dashboard
                 </NavLink>
-                <NavLink to="events" active={isCurrentRoute("/events")}>
+                <NavLink to="/events" active={isCurrentRoute("/events")}>
                   Events
                 </NavLink>
               </div>
@@ -62,10 +63,14 @@ export default function AuthenticatedLayout({ auth, header, children }) {
                   </Dropdown.Trigger>
 
                   <Dropdown.Content>
-                    <Dropdown.Link to="password-reset" method="get" as="button">
+                    <Dropdown.Link
+                      to="/password-reset"
+                      method="get"
+                      as="button"
+                    >
                       Change password
                     </Dropdown.Link>
-                    <Dropdown.Link to="logout" method="post" as="button">
+                    <Dropdown.Link to="/" as="button" onClick={logoutUser}>
                       Log Out
                     </Dropdown.Link>
                   </Dropdown.Content>
@@ -119,12 +124,12 @@ export default function AuthenticatedLayout({ auth, header, children }) {
         >
           <div className="pt-2 pb-3 space-y-1">
             <ResponsiveNavLink
-              to="dashboard"
+              to="/dashboard"
               active={isCurrentRoute("/dashboard")}
             >
               Dashboard
             </ResponsiveNavLink>
-            <ResponsiveNavLink to="events" active={isCurrentRoute("/events")}>
+            <ResponsiveNavLink to="/events" active={isCurrentRoute("/events")}>
               Events
             </ResponsiveNavLink>
           </div>
@@ -140,7 +145,7 @@ export default function AuthenticatedLayout({ auth, header, children }) {
             </div>
 
             <div className="mt-3 space-y-1">
-              <ResponsiveNavLink method="post" to="logout" as="button">
+              <ResponsiveNavLink to="/" as="button" onClick={logoutUser}>
                 Log Out
               </ResponsiveNavLink>
             </div>

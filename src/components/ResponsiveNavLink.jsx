@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function ResponsiveNavLink({
-  method = "get",
   as = "a",
   to,
   active = false,
@@ -10,7 +9,6 @@ export default function ResponsiveNavLink({
 }) {
   return (
     <Link
-      method={method}
       as={as}
       to={to}
       className={`w-full flex items-start pl-3 pr-4 py-2 border-l-4 ${

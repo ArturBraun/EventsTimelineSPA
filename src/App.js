@@ -5,6 +5,7 @@ import UserTimeline from "./pages/UserTimeline";
 import AdminTimeline from "./pages/AdminTimeline";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 import { initSampleData } from "./data/LocalDataService";
 
 function App() {
@@ -13,13 +14,10 @@ function App() {
   return (
     <Routes>
       <Route index element={<UserTimeline events={[]} />} />
-      <Route exact path="login" element={<Login />} />
-      <Route exact path="register" element={<Register />} />
-      <Route exact path="events" element={<AdminTimeline />} />
-
-      {/* <Route path="/" element={<AdminTimeline />}>
-        <Route exact path="events" element={<AdminTimeline />} />
-      </Route> */}
+      <Route replace exact path="login" element={<Login />} />
+      <Route replace exact path="register" element={<Register />} />
+      <Route replace exact path="events" element={<AdminTimeline />} />
+      <Route replace exact path="dashboard" element={<Dashboard />} />
     </Routes>
   );
 }

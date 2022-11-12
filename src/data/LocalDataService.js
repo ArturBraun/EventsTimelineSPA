@@ -160,3 +160,7 @@ export function getLoggedInUser() {
   const loggedInUser = localStorage.getItem("loggedInUser");
   return loggedInUser ? JSON.parse(loggedInUser) : undefined;
 }
+
+export function logoutUser() {
+  localStorage.removeItem("loggedInUser");
+}

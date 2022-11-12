@@ -42,7 +42,13 @@ export default function EventForm({
       : getProcessDefaultStartDate(),
     end_date: event.end_date ? toDateFromStr(event.end_date) : new Date(),
   };
-  const { data, setData } = useState(eventData);
+  const [data, setData] = useState(eventData);
+  const setDataProperty = (key, value) => {
+    setData((data) => ({
+      ...data,
+      [key]: value,
+    }));
+  };
 
   const submit = (e) => {
     if (data.start_date) {
@@ -154,7 +160,7 @@ export default function EventForm({
               </label>
               <input
                 value={data.name}
-                onChange={(e) => setData("name", e.target.value)}
+                onChange={(e) => setDataProperty("name", e.target.value)}
                 type="text"
                 name="name"
                 id="input-name"
@@ -172,7 +178,9 @@ export default function EventForm({
               </label>
               <input
                 value={data.short_description}
-                onChange={(e) => setData("short_description", e.target.value)}
+                onChange={(e) =>
+                  setDataProperty("short_description", e.target.value)
+                }
                 type="text"
                 name="short-description"
                 id="input-short-description"
@@ -193,7 +201,7 @@ export default function EventForm({
                   id="datepicker-start-date"
                   className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm sm:text-sm"
                   selected={data.start_date}
-                  onChange={(date) => setData("start_date", date)}
+                  onChange={(date) => setDataProperty("start_date", date)}
                   dateFormat="yyyy-MM-dd"
                 />
               </div>
@@ -212,7 +220,7 @@ export default function EventForm({
                 id="datepicker-end-date"
                 className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm sm:text-sm"
                 selected={data.end_date}
-                onChange={(date) => setData("end_date", date)}
+                onChange={(date) => setDataProperty("end_date", date)}
                 dateFormat="yyyy-MM-dd"
               />
             </div>
@@ -229,7 +237,7 @@ export default function EventForm({
               <textarea
                 value={data.detailed_description}
                 onChange={(e) =>
-                  setData("detailed_description", e.target.value)
+                  setDataProperty("detailed_description", e.target.value)
                 }
                 id="textarea-detailed-description"
                 name="detailed-description"
