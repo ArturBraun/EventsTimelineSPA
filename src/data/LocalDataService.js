@@ -51,10 +51,12 @@ function getLastIndex(items) {
 }
 
 function sortEvents(events) {
-  return events.sort(
-    (event1, event2) =>
-      toDateFromStr(event2.end_date) - toDateFromStr(event1.end_date)
-  );
+  return events.sort((event1, event2) => {
+    if (event2.end_date !== event1.end_date) {
+      return toDateFromStr(event2.end_date) - toDateFromStr(event1.end_date);
+    }
+    return event2.id - event1.id;
+  });
 }
 
 export function getEvents() {
