@@ -25,7 +25,12 @@ export default function Event({ event, forEditing, setEvents }) {
         </svg>
       </span>
       {editing ? (
-        <EventForm event={event} setEditing={setEditing} isFormForEdit={true} />
+        <EventForm
+          event={event}
+          setEditing={setEditing}
+          isFormForEdit={true}
+          setEvents={setEvents}
+        />
       ) : (
         <div className="overflow-hidden bg-white shadow sm:rounded-lg">
           <div className="pt-6 pl-6 pr-6 flex space-x-2">

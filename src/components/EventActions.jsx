@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import EventForm from "./EventForm";
 
-export default function EventActions({ forEditing }) {
+export default function EventActions({ forEditing, setEvents }) {
   const [editing, setEditing] = useState(false);
   const emptyEvent = {};
 
@@ -27,7 +27,11 @@ export default function EventActions({ forEditing }) {
         </svg>
       </span>
       {editing ? (
-        <EventForm event={emptyEvent} setEditing={setEditing} />
+        <EventForm
+          event={emptyEvent}
+          setEditing={setEditing}
+          setEvents={setEvents}
+        />
       ) : (
         <div className=" flex space-x-2">
           {forEditing ? (

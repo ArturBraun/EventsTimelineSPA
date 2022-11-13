@@ -156,6 +156,8 @@ export function loginUser(email, password, setErrors) {
   return user.id;
 }
 
+export function changeUserPassword(userId, password, password_confirmation) {}
+
 export function getLoggedInUser() {
   const loggedInUser = localStorage.getItem("loggedInUser");
   return loggedInUser ? JSON.parse(loggedInUser) : undefined;
@@ -165,30 +167,83 @@ export function logoutUser() {
   localStorage.removeItem("loggedInUser");
 }
 
-export function addEvent(){
-
-}
-
-export function editEvent(){
-
-}
-
-export function removeEvent(event_id, setEvents){
+export function addEvent(
+  name,
+  short_description,
+  start_date,
+  end_date,
+  detailed_description,
+  type_id,
+  setEvents,
+  setEditing
+) {
   const events = JSON.parse(localStorage.getItem("events"));
-  const eventsAfterDeletion = events.filter(event => event.id !== event_id);
+  const eventId = getLastIndex(events) + 1;
+
+  const newEvent = {
+    id: eventId,
+    name: name,
+    short_description: short_description,
+    start_date: start_date,
+    end_date: end_date,
+    detailed_description: detailed_description,
+    type_id: type_id,
+  };
+
+  events.push(newEvent);
+  localStorage.setItem("events", JSON.stringify(events));
+
+  setEditing(false);
+  setEvents(getEvents());
+}
+
+export function editEvent(
+  event_id,
+  name,
+  short_description,
+  start_date,
+  end_date,
+  detailed_description,
+  type_id,
+  setEvents,
+  setEditing
+) {
+  const events = JSON.parse(localStorage.getItem("events"));
+  const eventToEditIndex = events.findIndex((event) => event.id === event_id);
+
+  const editedEvent = {
+    id: event_id,
+    name: name,
+    short_description: short_description,
+    start_date: start_date,
+    end_date: end_date,
+    detailed_description: detailed_description,
+    type_id: type_id,
+  };
+
+  events[eventToEditIndex] = editedEvent;
+  localStorage.setItem("events", JSON.stringify(events));
+
+  setEditing(false);
+  setEvents(getEvents());
+}
+
+export function removeEvent(event_id, setEvents) {
+  const events = JSON.parse(localStorage.getItem("events"));
+  const eventsAfterDeletion = events.filter((event) => event.id !== event_id);
 
   localStorage.setItem("events", JSON.stringify(eventsAfterDeletion));
   setEvents(getEvents());
   return event_id;
 }
 
-export function addType(name, color, setTypes){
+export function addType(name, color, setTypes) {
   const types = JSON.parse(localStorage.getItem("types"));
   const typeId = getLastIndex(types) + 1;
   const newType = {
     id: typeId,
     name: name,
-    color: color
+    color: color,
   };
 
   types.push(newType);
@@ -196,17 +251,17 @@ export function addType(name, color, setTypes){
   setTypes(types);
 }
 
-export function removeType(type_id, setTypes){
+export function removeType(type_id, setTypes) {
   const types = JSON.parse(localStorage.getItem("types"));
   const events = JSON.parse(localStorage.getItem("events"));
 
   //check if there are no events with this type
-  const existingEvnt = events.find((event) => event.type_id === type_id);
-  if(existingEvnt){
+  const existingEvent = events.find((event) => event.type_id === type_id);
+  if (existingEvent) {
     return;
   }
 
-  const typesAfterDeletion = types.filter(type => type.id !== type_id);
+  const typesAfterDeletion = types.filter((type) => type.id !== type_id);
   localStorage.setItem("types", JSON.stringify(typesAfterDeletion));
   setTypes(typesAfterDeletion);
   return type_id;

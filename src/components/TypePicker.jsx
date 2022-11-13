@@ -23,8 +23,10 @@ export default function TypePicker({ selectedType, setSelectedType }) {
     e.stopPropagation();
 
     const deleteTypeId = removeType(typeId, setTypes);
-    if(!deleteTypeId){
-      alert("Type cannot be deleted as there are existing events with this type!");
+    if (!deleteTypeId) {
+      alert(
+        "Type cannot be deleted as there are existing events with this type!"
+      );
     }
   };
 

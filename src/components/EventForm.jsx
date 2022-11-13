@@ -3,11 +3,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toDateFromStr, getFormattedDate } from "../utils/CommonFunctions";
 import TypePicker from "./TypePicker";
+import { editEvent, addEvent } from "../data/LocalDataService";
 
 export default function EventForm({
   event,
   setEditing,
   isFormForEdit = false,
+  setEvents,
 }) {
   const [isEvent, setIsEvent] = useState(event.start_date ? false : true);
   const [selectedType, setSelectedType] = useState(
@@ -65,18 +67,30 @@ export default function EventForm({
     }
 
     e.preventDefault();
-    // if (isFormForEdit) {
-    //   Inertia.put(`/events/${event.id}`, data, {
-    //     onSuccess: () => setEditing(false),
-    //     onError: () => convertDatesBack(),
-    //   });
-    // } else {
-    //   Inertia.post("/events", data, {
-    //     onSuccess: () => setEditing(false),
-    //     onError: () => convertDatesBack(),
-    //   });
-    // }
-    console.log(JSON.stringify(data));
+    if (isFormForEdit) {
+      editEvent(
+        event.id,
+        data.name,
+        data.short_description,
+        data.start_date,
+        data.end_date,
+        data.detailed_description,
+        data.type_id,
+        setEvents,
+        setEditing
+      );
+    } else {
+      addEvent(
+        data.name,
+        data.short_description,
+        data.start_date,
+        data.end_date,
+        data.detailed_description,
+        data.type_id,
+        setEvents,
+        setEditing
+      );
+    }
   };
 
   return (
