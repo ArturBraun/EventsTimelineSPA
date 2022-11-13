@@ -26,7 +26,7 @@ export default function Timeline({ props, forEditing }) {
             <ol className="relative border-l border-gray-200 dark:border-gray-700">
               <EventActions forEditing={forEditing} />
               {events.map((event) => (
-                <Event key={event.id} event={event} forEditing={forEditing} />
+                <Event key={event.id} event={event} forEditing={forEditing} setEvents={setEvents} />
               ))}
             </ol>
           </div>

@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { BlockPicker } from "react-color";
-
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import { getTypes, removeType, addType } from "../data/LocalDataService";
 
 export default function TypePicker({ selectedType, setSelectedType }) {
   const ref = useRef(null);
@@ -14,48 +14,23 @@ export default function TypePicker({ selectedType, setSelectedType }) {
   });
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchTypes = async () => {
-  //     const response = await axios("/types");
-  //     setTypes(response.data);
-  //   };
-
-  //   fetchTypes();
-  // }, []);
+  useEffect(() => {
+    const loadedTypes = getTypes();
+    setTypes(loadedTypes);
+  }, []);
 
   const deleteType = (e, typeId) => {
     e.stopPropagation();
 
-    // axios
-    //   .delete(route("types.destroy", typeId))
-    //   .then(() =>
-    //     setTypes(
-    //       types.filter((type) => {
-    //         return type.id !== typeId;
-    //       })
-    //     )
-    //   )
-    //   .catch((error) => {
-    //     alert(error.response.data);
-    //   });
+    const deleteTypeId = removeType(typeId, setTypes);
+    if(!deleteTypeId){
+      alert("Type cannot be deleted as there are existing events with this type!");
+    }
   };
 
   const saveNewType = (e) => {
     e.stopPropagation();
-
-    // axios
-    //   .post(route("types.store"), newType)
-    //   .then((response) => {
-    //     types.push(response.data);
-    //     setNewType({ name: "", color: "#e8abc4" });
-    //   })
-    //   .catch((error) => {
-    //     if (error.response.status === 422) {
-    //       alert("Data is incorrect. Type name cannot be empty!");
-    //     } else {
-    //       alert("Unknown error happened...");
-    //     }
-    //   });
+    addType(newType.name, newType.color, setTypes);
   };
 
   const blockCurrentMenuItemFromClosing = () => {

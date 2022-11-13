@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 import EventForm from "./EventForm";
+import { removeEvent } from "../data/LocalDataService";
 
-export default function Event({ event, forEditing }) {
+export default function Event({ event, forEditing, setEvents }) {
   const [editing, setEditing] = useState(false);
   const [detailed, setDetailed] = useState(false);
 
@@ -58,9 +59,12 @@ export default function Event({ event, forEditing }) {
                       >
                         Edit
                       </button>
-                      <Dropdown.Link as="button" to="events" method="delete">
+                      <button
+                        className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"
+                        onClick={() => removeEvent(event.id, setEvents)}
+                      >
                         Delete
-                      </Dropdown.Link>
+                      </button>
                     </Dropdown.Content>
                   </Dropdown>
                 </div>

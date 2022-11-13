@@ -164,3 +164,50 @@ export function getLoggedInUser() {
 export function logoutUser() {
   localStorage.removeItem("loggedInUser");
 }
+
+export function addEvent(){
+
+}
+
+export function editEvent(){
+
+}
+
+export function removeEvent(event_id, setEvents){
+  const events = JSON.parse(localStorage.getItem("events"));
+  const eventsAfterDeletion = events.filter(event => event.id !== event_id);
+
+  localStorage.setItem("events", JSON.stringify(eventsAfterDeletion));
+  setEvents(getEvents());
+  return event_id;
+}
+
+export function addType(name, color, setTypes){
+  const types = JSON.parse(localStorage.getItem("types"));
+  const typeId = getLastIndex(types) + 1;
+  const newType = {
+    id: typeId,
+    name: name,
+    color: color
+  };
+
+  types.push(newType);
+  localStorage.setItem("types", JSON.stringify(types));
+  setTypes(types);
+}
+
+export function removeType(type_id, setTypes){
+  const types = JSON.parse(localStorage.getItem("types"));
+  const events = JSON.parse(localStorage.getItem("events"));
+
+  //check if there are no events with this type
+  const existingEvnt = events.find((event) => event.type_id === type_id);
+  if(existingEvnt){
+    return;
+  }
+
+  const typesAfterDeletion = types.filter(type => type.id !== type_id);
+  localStorage.setItem("types", JSON.stringify(typesAfterDeletion));
+  setTypes(typesAfterDeletion);
+  return type_id;
+}
