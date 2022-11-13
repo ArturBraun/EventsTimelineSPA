@@ -6,32 +6,55 @@ export function initSampleData() {
   localStorage.clear();
 
   const events = `[
-        {
-            "id": 1,
-            "name": "w",
-            "short_description": "www",
-            "detailed_description": "wwwwwwwwww",
-            "start_date": null,
-            "end_date": "2022-11-04",
-            "type_id": null
-        },
-        {
-            "id": 2,
-            "name": "c",
-            "short_description": "ccccc",
-            "detailed_description": "ccccccccccc",
-            "start_date": null,
-            "end_date": "2022-11-03",
-            "type_id": 1
-        }
-    ]`;
+    {
+        "id": 1,
+        "name": "Initial meeting",
+        "short_description": "Initial project meeting",
+        "detailed_description": "Initial meeting to gather project requirements, timelines and expectations",
+        "start_date": null,
+        "end_date": "2022-09-20",
+        "type_id": null
+    },
+    {
+        "id": 2,
+        "name": "Development",
+        "short_description": "Marketing feature development",
+        "detailed_description": "Designing, developing and testing new feature",
+        "start_date": "2022-10-02",
+        "end_date": "2022-10-31",
+        "type_id": 2
+    },
+    {
+        "id": 3,
+        "name": "Meeting",
+        "short_description": "Meeting about new release",
+        "detailed_description": "Meeting about strategy and new features connected with new release",
+        "start_date": null,
+        "end_date": "2022-11-01",
+        "type_id": 1
+    },
+    {
+        "id": 4,
+        "name": "Prod deployment",
+        "short_description": "Deployment of new service",
+        "detailed_description": "Marketing service with many new features was deployed",
+        "start_date": "2022-11-02",
+        "end_date": "2022-11-04",
+        "type_id": 2
+    }
+]`;
   const types = `[
-        {
-            "id": 1,
-            "name": "marketing",
-            "color": "#e8abc4"
-        }
-    ]`;
+    {
+        "id": 1,
+        "name": "marketing",
+        "color": "#e8abc4"
+    },
+    {
+        "id": 2,
+        "name": "engineering",
+        "color": "#9fc3fc"
+    }
+]`;
   const users = "[]";
 
   localStorage.setItem("events", events);
