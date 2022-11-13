@@ -158,11 +158,39 @@ export function loginUser(email, password, setErrors) {
   return user.id;
 }
 
-export function changeUserPassword(userId, password, password_confirmation) {}
-
 export function getLoggedInUser() {
   const loggedInUser = localStorage.getItem("loggedInUser");
   return loggedInUser ? JSON.parse(loggedInUser) : undefined;
+}
+
+export function changeUserPassword(password, passwordConfirmation, setErrors) {
+  const loggedInUser = getLoggedInUser();
+
+  if (!loggedInUser) {
+    setErrors((errors) => ({
+      ...errors,
+      password: "User is not signed in. Please sign in to change password.",
+    }));
+    return;
+  }
+
+  if (password !== passwordConfirmation) {
+    setErrors((errors) => ({
+      ...errors,
+      password: "The password confirmation does not match.",
+    }));
+    return;
+  }
+
+  const salt = bcrypt.genSaltSync(10);
+  const passwordHash = bcrypt.hashSync(password, salt);
+
+  const users = JSON.parse(localStorage.getItem("users"));
+  const userToEditIdx = users.findIndex((user) => user.id === loggedInUser.id);
+  users[userToEditIdx].password = passwordHash;
+  localStorage.setItem("users", JSON.stringify(users));
+
+  return loggedInUser.id;
 }
 
 export function logoutUser() {

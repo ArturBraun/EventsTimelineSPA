@@ -1,37 +1,50 @@
-import React, { useEffect } from "react";
-import GuestLayout from "@/Layouts/GuestLayout";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
-import { Head, useForm } from "@inertiajs/inertia-react";
+import React, { useState, useEffect } from "react";
+import GuestLayout from "../layouts/GuestLayout";
+import InputError from "../components/InputError";
+import InputLabel from "../components/InputLabel";
+import PrimaryButton from "../components/PrimaryButton";
+import TextInput from "../components/TextInput";
+import { getLoggedInUser, changeUserPassword } from "../data/LocalDataService";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword() {
-  const { data, setData, post, processing, errors, reset } = useForm({
+  const navigate = useNavigate();
+  const passwordResetForm = {
     password: "",
     password_confirmation: "",
-  });
+  };
+  const [errors, setErrors] = useState(passwordResetForm);
+  const [data, setData] = useState(passwordResetForm);
 
   useEffect(() => {
-    return () => {
-      reset("password", "password_confirmation");
-    };
+    const user = getLoggedInUser();
+    if (!user) {
+      navigate("/login");
+    }
   }, []);
 
   const onHandleChange = (event) => {
-    setData(event.target.name, event.target.value);
+    setData((data) => ({
+      ...data,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const submit = (e) => {
     e.preventDefault();
 
-    post(route("password.update"));
+    const userId = changeUserPassword(
+      data.password,
+      data.password_confirmation,
+      setErrors
+    );
+    if (userId) {
+      navigate("/events");
+    }
   };
 
   return (
     <GuestLayout>
-      <Head title="Reset Password" />
-
       <form onSubmit={submit}>
         <div className="mt-4">
           <InputLabel forInput="password" value="Password" />
@@ -68,9 +81,7 @@ export default function ResetPassword() {
         </div>
 
         <div className="flex items-center justify-end mt-4">
-          <PrimaryButton className="ml-4" processing={processing}>
-            Change password
-          </PrimaryButton>
+          <PrimaryButton className="ml-4">Change password</PrimaryButton>
         </div>
       </form>
     </GuestLayout>

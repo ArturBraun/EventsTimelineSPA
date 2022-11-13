@@ -6,6 +6,7 @@ import AdminTimeline from "./pages/AdminTimeline";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import ResetPassword from "./pages/ResetPassword";
 import { initSampleData } from "./data/LocalDataService";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route replace exact path="register" element={<Register />} />
       <Route replace exact path="events" element={<AdminTimeline />} />
       <Route replace exact path="dashboard" element={<Dashboard />} />
+      <Route replace exact path="password-reset" element={<ResetPassword />} />
     </Routes>
   );
 }
