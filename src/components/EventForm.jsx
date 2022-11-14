@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toDateFromStr, getFormattedDate } from "../utils/CommonFunctions";
 import TypePicker from "./TypePicker";
 import { editEvent, addEvent } from "../data/LocalDataService";
+import InputError from "./InputError";
 
 export default function EventForm({
   event,
@@ -11,6 +12,7 @@ export default function EventForm({
   isFormForEdit = false,
   setEvents,
 }) {
+  const [error, setError] = useState("");
   const [isEvent, setIsEvent] = useState(event.start_date ? false : true);
   const [selectedType, setSelectedType] = useState(
     event.type ? event.type : {}
@@ -68,7 +70,7 @@ export default function EventForm({
 
     e.preventDefault();
     if (isFormForEdit) {
-      editEvent(
+      const wasSuccesfull = editEvent(
         event.id,
         data.name,
         data.short_description,
@@ -77,10 +79,14 @@ export default function EventForm({
         data.detailed_description,
         data.type_id,
         setEvents,
-        setEditing
+        setEditing,
+        setError
       );
+      if (!wasSuccesfull) {
+        convertDatesBack();
+      }
     } else {
-      addEvent(
+      const wasSuccesfull = addEvent(
         data.name,
         data.short_description,
         data.start_date,
@@ -88,8 +94,12 @@ export default function EventForm({
         data.detailed_description,
         data.type_id,
         setEvents,
-        setEditing
+        setEditing,
+        setError
       );
+      if (!wasSuccesfull) {
+        convertDatesBack();
+      }
     }
   };
 
@@ -261,6 +271,7 @@ export default function EventForm({
               ></textarea>
             </div>
           </div>
+          <InputError message={error} className="mt-2" />
         </div>
         <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
           <button

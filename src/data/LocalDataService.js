@@ -220,6 +220,36 @@ export function logoutUser() {
   localStorage.removeItem("loggedInUser");
 }
 
+function isValidEvent(event, setError) {
+  if (!event) return false;
+
+  if (!event.name) {
+    setError("Name cannot be empty.");
+    return false;
+  }
+
+  if (!event.short_description) {
+    setError("Short description cannot be empty.");
+    return false;
+  }
+
+  //ensures that start date is smaller than end date
+  if (
+    event.start_date &&
+    toDateFromStr(event.end_date) - toDateFromStr(event.start_date) <= 0
+  ) {
+    setError("End date needs to be greater than start date.");
+    return false;
+  }
+
+  if (!event.detailed_description) {
+    setError("Datailed description cannot be empty.");
+    return false;
+  }
+
+  return true;
+}
+
 export function addEvent(
   name,
   short_description,
@@ -228,7 +258,8 @@ export function addEvent(
   detailed_description,
   type_id,
   setEvents,
-  setEditing
+  setEditing,
+  setError
 ) {
   const events = JSON.parse(localStorage.getItem("events"));
   const eventId = getLastIndex(events) + 1;
@@ -243,11 +274,16 @@ export function addEvent(
     type_id: type_id,
   };
 
+  if (!isValidEvent(newEvent, setError)) {
+    return false;
+  }
+
   events.push(newEvent);
   localStorage.setItem("events", JSON.stringify(events));
 
   setEditing(false);
   setEvents(getEvents());
+  return true;
 }
 
 export function editEvent(
@@ -259,7 +295,8 @@ export function editEvent(
   detailed_description,
   type_id,
   setEvents,
-  setEditing
+  setEditing,
+  setError
 ) {
   const events = JSON.parse(localStorage.getItem("events"));
   const eventToEditIndex = events.findIndex((event) => event.id === event_id);
@@ -274,11 +311,16 @@ export function editEvent(
     type_id: type_id,
   };
 
+  if (!isValidEvent(editedEvent, setError)) {
+    return false;
+  }
+
   events[eventToEditIndex] = editedEvent;
   localStorage.setItem("events", JSON.stringify(events));
 
   setEditing(false);
   setEvents(getEvents());
+  return true;
 }
 
 export function removeEvent(event_id, setEvents) {
@@ -290,6 +332,17 @@ export function removeEvent(event_id, setEvents) {
   return event_id;
 }
 
+function isValidType(type) {
+  if (!type) return false;
+
+  if (!type.name) {
+    alert("Type name cannot be empty.");
+    return false;
+  }
+
+  return true;
+}
+
 export function addType(name, color, setTypes) {
   const types = JSON.parse(localStorage.getItem("types"));
   const typeId = getLastIndex(types) + 1;
@@ -299,9 +352,14 @@ export function addType(name, color, setTypes) {
     color: color,
   };
 
+  if (!isValidType(newType)) {
+    return false;
+  }
+
   types.push(newType);
   localStorage.setItem("types", JSON.stringify(types));
   setTypes(types);
+  return true;
 }
 
 export function removeType(type_id, setTypes) {
