@@ -17,7 +17,7 @@ function App() {
       <Route index element={<UserTimeline events={[]} />} />
       <Route replace exact path="login" element={<Login />} />
       <Route replace exact path="register" element={<Register />} />
-      <Route replace exact path="events" element={<AdminTimeline />} />
+      <Route replace exact path="timeline-view" element={<AdminTimeline />} />
       <Route replace exact path="dashboard" element={<Dashboard />} />
       <Route replace exact path="password-reset" element={<ResetPassword />} />
     </Routes>

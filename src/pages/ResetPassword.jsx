@@ -39,7 +39,7 @@ export default function ResetPassword() {
       setErrors
     );
     if (userId) {
-      navigate("/events");
+      navigate("/timeline-view");
     }
   };
 

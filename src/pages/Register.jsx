@@ -40,7 +40,7 @@ export default function Register() {
     );
 
     if (userId) {
-      navigate("/events");
+      navigate("/timeline-view");
     }
   };
 

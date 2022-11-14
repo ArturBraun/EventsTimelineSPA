@@ -29,8 +29,11 @@ export default function AuthenticatedLayout({ auth, header, children }) {
                 <NavLink to="/dashboard" active={isCurrentRoute("/dashboard")}>
                   Dashboard
                 </NavLink>
-                <NavLink to="/events" active={isCurrentRoute("/events")}>
-                  Events
+                <NavLink
+                  to="/timeline-view"
+                  active={isCurrentRoute("/timeline-view")}
+                >
+                  Timeline view
                 </NavLink>
               </div>
             </div>
@@ -129,8 +132,11 @@ export default function AuthenticatedLayout({ auth, header, children }) {
             >
               Dashboard
             </ResponsiveNavLink>
-            <ResponsiveNavLink to="/events" active={isCurrentRoute("/events")}>
-              Events
+            <ResponsiveNavLink
+              to="/timeline-view"
+              active={isCurrentRoute("/timeline-view")}
+            >
+              Timeline view
             </ResponsiveNavLink>
           </div>
 
