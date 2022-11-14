@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import { initSampleData } from "./data/LocalDataService";
+import TableView from "./components/TableView";
 
 function App() {
   useEffect(() => initSampleData(), []);
@@ -18,6 +19,7 @@ function App() {
       <Route replace exact path="login" element={<Login />} />
       <Route replace exact path="register" element={<Register />} />
       <Route replace exact path="timeline-view" element={<AdminTimeline />} />
+      <Route replace exact path="table-view" element={<TableView />} />
       <Route replace exact path="dashboard" element={<Dashboard />} />
       <Route replace exact path="password-reset" element={<ResetPassword />} />
     </Routes>

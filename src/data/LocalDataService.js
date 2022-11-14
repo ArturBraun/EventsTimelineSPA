@@ -60,6 +60,10 @@ export function initSampleData() {
   localStorage.setItem("events", events);
   localStorage.setItem("types", types);
   localStorage.setItem("users", users);
+
+  if (localStorage.getItem("loggedInUser")) {
+    localStorage.removeItem("loggedInUser");
+  }
 }
 
 export function getTypes() {
