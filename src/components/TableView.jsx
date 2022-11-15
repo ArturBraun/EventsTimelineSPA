@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 import { getLoggedInUser, getEvents } from "../data/LocalDataService";
 import { useNavigate } from "react-router-dom";
+import ArrowSortAsc from "../icons/arrow-sort-asc.svg";
+import { ReactComponent as ArrowSortDesc } from "../icons/arrow-sort-desc.svg";
+import { sortEventsByProperty } from "../utils/CommonFunctions";
 
 export default function TableView() {
   const navigate = useNavigate();
@@ -14,6 +17,60 @@ export default function TableView() {
   };
   const [auth, setAuth] = useState(authInitData);
   const [events, setEvents] = useState([]);
+
+  // Custom object to store sorting preferences
+  // 0    -> no sort
+  // -1   -> desc sort
+  // 1    -> asc sort
+  const sortPreferences = {
+    name: 0,
+    short_description: 0,
+    start_date: 0,
+    end_date: -1,
+    detailed_description: 0,
+    type_name: 0,
+  };
+
+  const currSortColumn = {
+    columnName: "end_date",
+    sortOrder: -1,
+  };
+
+  const renderSortArrow = (columnName) => {
+    if (sortPreferences[columnName] === 1) {
+      return <ArrowSortAsc />;
+    } else if (sortPreferences[columnName] === -1) {
+      return <ArrowSortDesc />;
+    } else return <></>;
+  };
+
+  const sortByColumn = (columnName) => {
+    Object.keys(sortPreferences).forEach((key) => {
+      sortPreferences[key] = 0;
+    });
+
+    if (columnName === currSortColumn.columnName) {
+      currSortColumn.sortOrder = -1 * currSortColumn.sortOrder;
+      const eventsSortedByColumn = sortEventsByProperty(
+        events,
+        columnName,
+        currSortColumn.sortOrder
+      );
+      sortPreferences[columnName] = currSortColumn.sortOrder;
+      setEvents(eventsSortedByColumn);
+      return;
+    }
+
+    currSortColumn.sortOrder = 1;
+    currSortColumn.columnName = columnName;
+    const eventsSortedByColumn = sortEventsByProperty(
+      events,
+      columnName,
+      currSortColumn.sortOrder
+    );
+    sortPreferences[columnName] = currSortColumn.sortOrder;
+    setEvents(eventsSortedByColumn);
+  };
 
   useEffect(() => {
     const user = getLoggedInUser();
@@ -39,23 +96,53 @@ export default function TableView() {
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-s text-gray-700 bg-gray-200 dark:bg-gray-900 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="py-3 px-6">
+                  <th
+                    scope="col"
+                    className="py-3 px-6 cursor-pointer"
+                    onClick={() => sortByColumn("name")}
+                  >
                     Name
+                    {renderSortArrow("name")}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th
+                    scope="col"
+                    className="py-3 px-6 cursor-pointer"
+                    onClick={() => sortByColumn("short_description")}
+                  >
                     Short description
+                    {renderSortArrow("short_description")}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th
+                    scope="col"
+                    className="py-3 px-6 cursor-pointer"
+                    onClick={() => sortByColumn("start_date")}
+                  >
                     Start date
+                    {renderSortArrow("start_date")}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th
+                    scope="col"
+                    className="py-3 px-6 cursor-pointer"
+                    onClick={() => sortByColumn("end_date")}
+                  >
                     End date
+                    {renderSortArrow("end_date")}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th
+                    scope="col"
+                    className="py-3 px-6 cursor-pointer"
+                    onClick={() => sortByColumn("detailed_description")}
+                  >
                     Detailed description
+                    {renderSortArrow("detailed_description")}
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th
+                    scope="col"
+                    className="py-3 px-6 cursor-pointer"
+                    onClick={() => sortByColumn("type_name")}
+                  >
                     Type
+                    {renderSortArrow("type_name")}
                   </th>
                 </tr>
               </thead>
