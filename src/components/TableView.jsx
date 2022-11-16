@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 import { getLoggedInUser, getEvents } from "../data/LocalDataService";
 import { useNavigate } from "react-router-dom";
-import ArrowSortAsc from "../icons/arrow-sort-asc.svg";
+import { ReactComponent as ArrowSortAsc } from "../icons/arrow-sort-asc.svg";
 import { ReactComponent as ArrowSortDesc } from "../icons/arrow-sort-desc.svg";
 import { sortEventsByProperty } from "../utils/CommonFunctions";
 
@@ -22,7 +22,7 @@ export default function TableView() {
   // 0    -> no sort
   // -1   -> desc sort
   // 1    -> asc sort
-  const sortPreferences = {
+  const sortPreferencesInitData = {
     name: 0,
     short_description: 0,
     start_date: 0,
@@ -30,11 +30,15 @@ export default function TableView() {
     detailed_description: 0,
     type_name: 0,
   };
+  const [sortPreferences, setSortPreferences] = useState(
+    sortPreferencesInitData
+  );
 
-  const currSortColumn = {
+  const currSortColumnInitData = {
     columnName: "end_date",
     sortOrder: -1,
   };
+  const [currSortColumn, setCurrSortColumn] = useState(currSortColumnInitData);
 
   const renderSortArrow = (columnName) => {
     if (sortPreferences[columnName] === 1) {
@@ -56,8 +60,9 @@ export default function TableView() {
         columnName,
         currSortColumn.sortOrder
       );
+      console.log(JSON.stringify(eventsSortedByColumn));
       sortPreferences[columnName] = currSortColumn.sortOrder;
-      setEvents(eventsSortedByColumn);
+      setEvents([...eventsSortedByColumn]);
       return;
     }
 
@@ -69,7 +74,7 @@ export default function TableView() {
       currSortColumn.sortOrder
     );
     sortPreferences[columnName] = currSortColumn.sortOrder;
-    setEvents(eventsSortedByColumn);
+    setEvents([...eventsSortedByColumn]);
   };
 
   useEffect(() => {
