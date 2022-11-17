@@ -60,7 +60,6 @@ export default function TableView() {
         columnName,
         currSortColumn.sortOrder
       );
-      console.log(JSON.stringify(eventsSortedByColumn));
       sortPreferences[columnName] = currSortColumn.sortOrder;
       setEvents([...eventsSortedByColumn]);
       return;

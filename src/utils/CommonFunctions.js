@@ -46,9 +46,29 @@ function sortEventsByStrProperty(events, propertyName, sortDirection) {
   });
 }
 
+function sortEventsByTypeName(events, sortDirection) {
+  return events.sort((event1, event2) => {
+    if (!event1.type_id) {
+      return sortDirection;
+    }
+    if (!event2.type_id) {
+      return -1 * sortDirection;
+    }
+    if (event1.type.name < event2.type.name) {
+      return -1 * sortDirection;
+    }
+    if (event1.type.name > event2.type.name) {
+      return 1 * sortDirection;
+    }
+    return sortDirection * (event1.type.id - event2.type.id);
+  });
+}
+
 export function sortEventsByProperty(events, propertyName, sortDirection) {
   if (["start_date", "end_date"].includes(propertyName)) {
     return sortEventsByDateProperty(events, propertyName, sortDirection);
+  } else if ("type_name" === propertyName) {
+    return sortEventsByTypeName(events, sortDirection);
   }
   return sortEventsByStrProperty(events, propertyName, sortDirection);
 }
