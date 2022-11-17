@@ -82,7 +82,8 @@ export function applyFilterToEvents(events, filter) {
         shouldNotBeFiltered &&
         filter.start_date_from <= toDateFromStr(event.start_date);
     }
-    if (filter.start_date_to && event.start_date) {
+    if (filter.start_date_to) {
+      if (!event.start_date) return false;
       shouldNotBeFiltered =
         shouldNotBeFiltered &&
         filter.start_date_to >= toDateFromStr(event.start_date);

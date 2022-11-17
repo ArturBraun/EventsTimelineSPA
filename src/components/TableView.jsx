@@ -127,20 +127,55 @@ export default function TableView() {
       <div className="mt-4 relative col-span-12 px-4 space-y-6 sm:col-span-9">
         <div className="p-4 sm:p-6 lg:p-8">
           <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-            <div className="grid grid-cols-3 gap-6">
-              <div className="col-span-3 sm:col-span-2">
-                <label
-                  htmlFor="type-radio-group"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Start date from
-                </label>
+            <div className="grid grid-cols-4 gap-4">
+              <label className="text-center block text-sm font-medium text-gray-700">
+                Start date from
+              </label>
+              <label className="text-center block text-sm font-medium text-gray-700">
+                Start date to
+              </label>
+              <label className="text-center block text-sm font-medium text-gray-700">
+                End date from
+              </label>
+              <label className="text-center block text-sm font-medium text-gray-700">
+                End date to
+              </label>
+              <div className="px-2">
                 <DatePicker
-                  id="datepicker-start-date"
                   className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm sm:text-sm"
                   selected={filter.start_date_from}
                   onChange={(date) =>
                     setFilterDataProperty("start_date_from", date)
+                  }
+                  dateFormat="yyyy-MM-dd"
+                />
+              </div>
+              <div className="px-2">
+                <DatePicker
+                  className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm sm:text-sm"
+                  selected={filter.start_date_to}
+                  onChange={(date) =>
+                    setFilterDataProperty("start_date_to", date)
+                  }
+                  dateFormat="yyyy-MM-dd"
+                />
+              </div>
+              <div className="px-2">
+                <DatePicker
+                  className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm sm:text-sm"
+                  selected={filter.end_date_from}
+                  onChange={(date) =>
+                    setFilterDataProperty("end_date_from", date)
+                  }
+                  dateFormat="yyyy-MM-dd"
+                />
+              </div>
+              <div className="px-2">
+                <DatePicker
+                  className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm sm:text-sm"
+                  selected={filter.end_date_to}
+                  onChange={(date) =>
+                    setFilterDataProperty("end_date_to", date)
                   }
                   dateFormat="yyyy-MM-dd"
                 />
