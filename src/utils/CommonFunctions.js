@@ -72,3 +72,31 @@ export function sortEventsByProperty(events, propertyName, sortDirection) {
   }
   return sortEventsByStrProperty(events, propertyName, sortDirection);
 }
+
+export function applyFilterToEvents(events, filter) {
+  return events.filter((event) => {
+    let shouldNotBeFiltered = true;
+    if (filter.start_date_from) {
+      if (!event.start_date) return false;
+      shouldNotBeFiltered =
+        shouldNotBeFiltered &&
+        filter.start_date_from <= toDateFromStr(event.start_date);
+    }
+    if (filter.start_date_to && event.start_date) {
+      shouldNotBeFiltered =
+        shouldNotBeFiltered &&
+        filter.start_date_to >= toDateFromStr(event.start_date);
+    }
+    if (filter.end_date_from) {
+      shouldNotBeFiltered =
+        shouldNotBeFiltered &&
+        filter.end_date_from <= toDateFromStr(event.end_date);
+    }
+    if (filter.end_date_to) {
+      shouldNotBeFiltered =
+        shouldNotBeFiltered &&
+        filter.end_date_to >= toDateFromStr(event.end_date);
+    }
+    return shouldNotBeFiltered;
+  });
+}

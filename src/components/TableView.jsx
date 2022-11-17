@@ -4,7 +4,11 @@ import { getLoggedInUser, getEvents } from "../data/LocalDataService";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as ArrowSortAsc } from "../icons/arrow-sort-asc.svg";
 import { ReactComponent as ArrowSortDesc } from "../icons/arrow-sort-desc.svg";
-import { sortEventsByProperty } from "../utils/CommonFunctions";
+import {
+  sortEventsByProperty,
+  applyFilterToEvents,
+} from "../utils/CommonFunctions";
+import DatePicker from "react-datepicker";
 
 export default function TableView() {
   const navigate = useNavigate();
@@ -39,6 +43,21 @@ export default function TableView() {
     sortOrder: -1,
   };
   const [currSortColumn, setCurrSortColumn] = useState(currSortColumnInitData);
+
+  const initialFilter = {
+    start_date_from: null,
+    start_date_to: null,
+    end_date_from: null,
+    end_date_to: null,
+  };
+  const [filter, setFilter] = useState(initialFilter);
+
+  const setFilterDataProperty = (key, value) => {
+    setFilter((data) => ({
+      ...data,
+      [key]: value,
+    }));
+  };
 
   const renderSortArrow = (columnName) => {
     if (sortPreferences[columnName] === 1) {
@@ -76,6 +95,17 @@ export default function TableView() {
     setEvents([...eventsSortedByColumn]);
   };
 
+  const filterEvents = () => {
+    let filteredEvents = getEvents();
+    filteredEvents = applyFilterToEvents(filteredEvents, filter);
+    const filteredAndSortedEvents = sortEventsByProperty(
+      filteredEvents,
+      currSortColumn.columnName,
+      currSortColumn.sortOrder
+    );
+    setEvents(filteredAndSortedEvents);
+  };
+
   useEffect(() => {
     const user = getLoggedInUser();
     if (!user) {
@@ -96,7 +126,38 @@ export default function TableView() {
     >
       <div className="mt-4 relative col-span-12 px-4 space-y-6 sm:col-span-9">
         <div className="p-4 sm:p-6 lg:p-8">
-          <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+          <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
+            <div className="grid grid-cols-3 gap-6">
+              <div className="col-span-3 sm:col-span-2">
+                <label
+                  htmlFor="type-radio-group"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Start date from
+                </label>
+                <DatePicker
+                  id="datepicker-start-date"
+                  className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm sm:text-sm"
+                  selected={filter.start_date_from}
+                  onChange={(date) =>
+                    setFilterDataProperty("start_date_from", date)
+                  }
+                  dateFormat="yyyy-MM-dd"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+            <button
+              type="button"
+              onClick={filterEvents}
+              className="mr-2 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Filter
+            </button>
+          </div>
+
+          <div className="mt-5 overflow-x-auto relative shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-s text-gray-700 bg-gray-200 dark:bg-gray-900 dark:text-gray-400">
                 <tr>
