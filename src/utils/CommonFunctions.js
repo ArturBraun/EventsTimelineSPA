@@ -36,14 +36,9 @@ function sortEventsByDateProperty(events, propertyName, sortDirection) {
 }
 
 function sortEventsByStrProperty(events, propertyName, sortDirection) {
-  return events.sort((event1, event2) => {
-    if (event1[propertyName] < event2[propertyName]) {
-      return -1 * sortDirection;
-    } else if (event1[propertyName] > event2[propertyName]) {
-      return 1 * sortDirection;
-    }
-    return sortDirection * (event1.id - event2.id);
-  });
+  return events.sort((event1, event2) => 
+    sortDirection * event1[propertyName].localeCompare(event2[propertyName])
+  );
 }
 
 function sortEventsByTypeName(events, sortDirection) {

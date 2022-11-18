@@ -275,7 +275,7 @@ export function addEvent(
     start_date: start_date,
     end_date: end_date,
     detailed_description: detailed_description,
-    type_id: type_id,
+    type_id: type_id ? type_id : null,
   };
 
   if (!isValidEvent(newEvent, setError)) {
