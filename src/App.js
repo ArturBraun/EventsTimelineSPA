@@ -8,7 +8,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import { initSampleData } from "./data/LocalDataService";
-import TableView from "./components/TableView";
+import TableView from "./pages/TableView";
 
 function App() {
   useEffect(() => initSampleData(), []);
